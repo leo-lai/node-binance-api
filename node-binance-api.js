@@ -3901,9 +3901,11 @@ let api = function Binance( options = {} ) {
             return promiseRequest( 'v1/exchangeInfo', {}, { base:fapi } );
         },
 
-        futuresPrices: async ( params = {} ) => {
+        futuresPrices: async (symbol = false, params = {} ) => {
+            if (symbol) params.symbol = symbol;
             let data = await promiseRequest( 'v1/ticker/price', params, { base:fapi } );
-            return data.reduce( ( out, i ) => ( ( out[i.symbol] =  i.price ), out ), {} );
+            // return data.reduce( ( out, i ) => ( ( out[i.symbol] =  i.price ), out ), {} );
+            return priceData( data )
         },
 
         futuresDaily: async ( symbol = false, params = {} ) => {
