@@ -3321,6 +3321,32 @@ let api = function Binance( options = {} ) {
             }
         },
 
+        /**
+        * 用户万向划转
+        * @param {string} type 
+        * @param {string} asset 
+        * @param {number} amount 
+        * @param {function} callback - the callback function
+        * @return {promise or undefined} - omitting the callback returns a promise
+        */
+        transferAsset: function (type, asset, amount, callback = false) {
+            let params = { type, asset, amount };
+            if (!callback) {
+                return new Promise((resolve, reject) => {
+                    callback = (error, response) => {
+                        if (error) {
+                            reject(error);
+                        } else {
+                            resolve(response);
+                        }
+                    }
+                    signedRequest(sapi + 'v1/asset/transfer', params, callback, 'POST');
+                })
+            } else {
+                signedRequest(sapi + 'v1/asset/transfer', params, callback, 'POST');
+            }
+        },
+
         dustTransfer: function ( assets, callback ) {
             signedRequest( sapi + 'v1/asset/dust', { asset: assets }, callback, 'POST' );
         },
