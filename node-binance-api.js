@@ -3525,6 +3525,30 @@ let api = function Binance( options = {} ) {
         },
 
         /**
+        * Get the trade rate
+        * @param {string} symbol (optional)
+        * @param {function} callback - the callback function
+        * @return {promise or undefined} - omitting the callback returns a promise
+        */
+        tradeRate: function (symbol = false, callback) {
+            let params = symbol ? { symbol: symbol } : {};
+            if (!callback) {
+                return new Promise((resolve, reject) => {
+                    callback = (error, response) => {
+                        if (error) {
+                            reject(error);
+                        } else {
+                            resolve(response);
+                        }
+                    }
+                    signedRequest(sapi + 'v1/asset/tradeFee', params, callback);
+                })
+            } else {
+                signedRequest(sapi + 'v1/asset/tradeFee', params, callback);
+            }
+        },
+
+        /**
         * Fetch asset detail (minWithdrawAmount, depositStatus, withdrawFee, withdrawStatus, depositTip)
         * @param {function} callback - the callback function
         * @return {promise or undefined} - omitting the callback returns a promise
