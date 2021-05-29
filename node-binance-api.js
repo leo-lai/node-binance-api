@@ -365,9 +365,10 @@ let api = function Binance( options = {} ) {
         let opt = {
             symbol: symbol,
             side: side,
-            type: 'LIMIT',
-            quantity: quantity
+            type: 'LIMIT'
         };
+        if (quantity) opt.quantity = quantity;
+
         if ( typeof flags.type !== 'undefined' ) opt.type = flags.type;
         if ( opt.type.includes( 'LIMIT' ) ) {
             opt.price = price;
@@ -384,6 +385,8 @@ let api = function Binance( options = {} ) {
             if ( typeof flags.limitClientOrderId !== 'undefined' ) opt.limitClientOrderId = flags.limitClientOrderId;
             if ( typeof flags.stopClientOrderId !== 'undefined' ) opt.stopClientOrderId = flags.stopClientOrderId;
         }
+
+        if (typeof flags.quoteOrderQty !== 'undefined') opt.quoteOrderQty = flags.quoteOrderQty;
         if ( typeof flags.timeInForce !== 'undefined' ) opt.timeInForce = flags.timeInForce;
         if ( typeof flags.newOrderRespType !== 'undefined' ) opt.newOrderRespType = flags.newOrderRespType;
         if ( typeof flags.newClientOrderId !== 'undefined' ) opt.newClientOrderId = flags.newClientOrderId;
